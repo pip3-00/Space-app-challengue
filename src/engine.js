@@ -1,0 +1,84 @@
+// CONFIGURACION-INICIAL
+
+const PROB_EVENT = 0.4;
+const DIAS_MISION = 6;
+const SEMILLA = 99;
+
+const ACCIONES ={
+    reciclarAire: {oxigeno: 20, energia: -10},
+    descansar: { energia: 20, oxigeno: -3},
+    comer: { comida: 25, energia: 5, oxigeno: -1}
+};
+
+const EVENTOS = [
+    {nombre: "tormentaSolar", efecto: { energia: -20, oxigeno: -11 }},
+    {nombre: "fallaCO2", efecto: { energia: -12, oxigeno: -23 }},
+    {nombre: "micrometeorito", efecto: { energia: -15, oxigeno: -15 }},
+];
+
+// FUNCIONES
+
+function crearRng(semilla){
+    let s = semilla;
+    return function(){
+        s = (s +  0x6D2B79F5) | 0;
+        let t = Math.imul(s ^ s >>> 15, 1 | s);
+        t = (t + Math.imul(t ^ t >>> 7, 61 | t)) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+}
+
+
+function aplicarAccion (estado, accion){
+    const efecto = ACCIONES[accion];
+    if(!efecto) return estado;
+
+    return{
+    ...estado,
+    oxigeno: estado.oxigeno + (efecto.oxigeno ?? 0),
+    energia: estado.energia + (efecto.energia ?? 0),
+    comida: estado.comida + (efecto.comida ?? 0)
+    };
+}
+
+function pasarDia(estado){
+    return{
+        dia: estado.dia + 1,
+        oxigeno: estado.oxigeno - 30,
+        energia: estado.energia - 25,
+        comida: estado.comida - 15
+    };
+}
+
+function estaVivo(estado){
+    if (estado.oxigeno <= 0 || estado.energia <= 0 || estado.comida <= 0){
+        return false;
+    }
+    return true;
+}
+
+function aplicarEvento (estado, rng){
+    if(rng() >= PROB_EVENT){
+        return{ estado: estado, evento: null};
+    }
+
+    const indice = Math.floor(rng()* EVENTOS.length);
+    const evento = EVENTOS [indice];
+
+    return{
+        estado: {
+            ...estado,
+            oxigeno: estado.oxigeno + (evento.efecto.oxigeno ?? 0),
+            energia: estado.energia + (evento.efecto.energia ?? 0),
+            comida: estado.comida + (evento.efecto.comida ?? 0),
+        },
+
+        evento: evento.nombre,
+    };
+
+
+}function turno(estado, accion, rng) {
+    const despuesDeAccion = aplicarAccion(estado, accion);
+    const despuesDeDia = pasarDia(despuesDeAccion);
+    return aplicarEvento (despuesDeDia, rng);
+}
