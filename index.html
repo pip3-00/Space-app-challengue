@@ -1,17 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Puesto avanzado a marte</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===== ZONA GRÁFICA: título de la pestaña ===== -->
+    <title>Puesto Avanzado Marte</title>
+
+    <!-- ===== ZONA GRÁFICA: estilos de la página ===== -->
+    <style>
+        canvas {
+            border: 2px solid black;
+            max-width: 100%;
+        }
+
+        button {
+            margin: 4px;
+            padding: 8px 14px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+    </style>
+    <!-- ===== FIN ZONA GRÁFICA ===== -->
 </head>
 
 <body>
+    <!-- ===== ZONA GRÁFICA: título visible ===== -->
+    <h1>Puesto Avanzado Marte</h1>
 
-    <h1>Puesto avanzado a marte</h1>
-    <script src="./src/engine.js"></script>
-    <script src="./src/main.js"></script>
+    <!-- ===== ZONA LÓGICA: NO cambiar los id ni quitar estos elementos ===== -->
+    <canvas id="juego" width="800" height="450"></canvas>
+    <div id="acciones"></div>
+    <pre id="info"></pre>
+
+    <!-- ===== ZONA LÓGICA: NO cambiar el orden de los scripts ===== -->
+    <script src="src/engine.js"></script>
+    <script src="src/render.js"></script>
+    <script src="src/main.js"></script>
 </body>
 
 </html>
