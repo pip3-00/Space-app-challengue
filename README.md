@@ -7,7 +7,7 @@ La rama `main` está **protegida**: no se puede subir código directo a ella. To
 | Quién | Archivos |
 |---|---|
 | Lógica del juego | `src/engine.js`, `src/main.js`, `data/` |
-| Gráficos | `src/render.js`(es ejemplo) y los recursos visuales |
+| Gráficos | `src/render.js` y los recursos visuales |
 
 Regla: **cada quien edita solo sus archivos**. Si necesitas algo de los del otro, avísale por el grupo.
 
